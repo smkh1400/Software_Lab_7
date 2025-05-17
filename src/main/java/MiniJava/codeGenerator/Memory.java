@@ -1,13 +1,17 @@
 package MiniJava.codeGenerator;
 
 import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by mohammad hosein on 6/27/2015.
  */
 public class Memory {
     private ArrayList<_3AddressCode> codeBlock;
+    @Setter @Getter
     private int lastTempIndex;
+    @Setter @Getter
     private int lastDataAddress;
     private final int stratTempMemoryAddress = 500;
     private final int stratDataMemoryAddress = 200;
@@ -16,18 +20,18 @@ public class Memory {
 
     public Memory() {
         codeBlock = new ArrayList<_3AddressCode>();
-        lastTempIndex = stratTempMemoryAddress;
-        lastDataAddress = stratDataMemoryAddress;
+        setLastTempIndex(stratTempMemoryAddress);
+        setLastDataAddress(stratDataMemoryAddress);
     }
 
     public int getTemp() {
-        lastTempIndex += tempSize;
-        return lastTempIndex - tempSize;
+        setLastTempIndex(getLastTempIndex() + tempSize);
+        return getLastTempIndex() - tempSize;
     }
 
     public int getDateAddress() {
-        lastDataAddress += dataSize;
-        return lastDataAddress - dataSize;
+        setLastDataAddress(getLastDataAddress() + dataSize);
+        return getLastDataAddress() - dataSize;
     }
 
     public int saveMemory() {
