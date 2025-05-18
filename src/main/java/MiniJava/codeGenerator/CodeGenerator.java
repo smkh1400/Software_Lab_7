@@ -244,6 +244,7 @@ public class CodeGenerator {
                 t = varType.Bool;
                 break;
         }
+        memory.modifyLastTempIndex();
         Address temp = new Address(memory.getTemp(), t);
         ss.push(temp);
         memory.add3AddressCode(Operation.ASSIGN, new Address(temp.num, varType.Address, TypeAddress.Imidiate), new Address(symbolTable.getMethodReturnAddress(className, methodName), varType.Address), null);
@@ -299,6 +300,7 @@ public class CodeGenerator {
     }
 
     public void add() {
+        memory.modifyLastTempIndex();
         Address temp = new Address(memory.getTemp(), varType.Int);
         Address s2 = ss.pop();
         Address s1 = ss.pop();
@@ -311,6 +313,7 @@ public class CodeGenerator {
     }
 
     public void sub() {
+        memory.modifyLastTempIndex();
         Address temp = new Address(memory.getTemp(), varType.Int);
         Address s2 = ss.pop();
         Address s1 = ss.pop();
@@ -322,6 +325,7 @@ public class CodeGenerator {
     }
 
     public void mult() {
+        memory.modifyLastTempIndex();
         Address temp = new Address(memory.getTemp(), varType.Int);
         Address s2 = ss.pop();
         Address s1 = ss.pop();
@@ -361,6 +365,7 @@ public class CodeGenerator {
     }
 
     public void equal() {
+        memory.modifyLastTempIndex();
         Address temp = new Address(memory.getTemp(), varType.Bool);
         Address s2 = ss.pop();
         Address s1 = ss.pop();
@@ -372,6 +377,7 @@ public class CodeGenerator {
     }
 
     public void less_than() {
+        memory.modifyLastTempIndex();
         Address temp = new Address(memory.getTemp(), varType.Bool);
         Address s2 = ss.pop();
         Address s1 = ss.pop();
@@ -383,6 +389,7 @@ public class CodeGenerator {
     }
 
     public void and() {
+        memory.modifyLastTempIndex();
         Address temp = new Address(memory.getTemp(), varType.Bool);
         Address s2 = ss.pop();
         Address s1 = ss.pop();
@@ -394,6 +401,7 @@ public class CodeGenerator {
     }
 
     public void not() {
+        memory.modifyLastTempIndex();
         Address temp = new Address(memory.getTemp(), varType.Bool);
         Address s2 = ss.pop();
         Address s1 = ss.pop();

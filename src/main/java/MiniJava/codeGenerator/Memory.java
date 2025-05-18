@@ -24,13 +24,19 @@ public class Memory {
         setLastDataAddress(stratDataMemoryAddress);
     }
 
-    public int getTemp() {
+    public void modifyLastTempIndex() {
         setLastTempIndex(getLastTempIndex() + tempSize);
+    }
+
+    public int getTemp() {
         return getLastTempIndex() - tempSize;
     }
 
-    public int getDateAddress() {
+    public void modifyLastDataAddress() {
         setLastDataAddress(getLastDataAddress() + dataSize);
+    }
+
+    public int getDateAddress() {
         return getLastDataAddress() - dataSize;
     }
 
