@@ -4,6 +4,8 @@
 
 در این تکنیک، برای استفاده از فیلد های `private` درون خود کلاس ها نیز از متد های `getter` و `setter` استفاده می کنیم. بازآرایی انجام شده در کلاس `Memory` می باشد و برای فیلد های `lastTempIndex` و `lastDataAddress` انجام شده است.
 
+___
+
 تکنیک `Separate Query From Modifier`:
 
 در این تکنیک تلاش می کنیم متد هایی را شناسایی کنیم که علاوه بر خروجی دادن داده ای را در حافظه تغییر می دهند. برای مثال تابع زیر در کلاس `Memory` هم مقدار `lastTempIndex` را تغییر داده و هم خروجی ای تولید می کند
@@ -25,10 +27,39 @@ public int getTemp() {
     return getLastTempIndex() - tempSize;
 }
 ```
+___
 
+تکنیک `Replace Nested Conditional with Guard Clauses`:
+در این تکنیک `if` های تو دو تو را شناسایی می کنیم و در صورتی که بتوانیم با کمک `return` سریع تر از متد خارج شویم از ایجاد `if` تو در تو جلوگیری می کنیم.
 
+در تابع `equals` در کلاس `Token` شرط تو در تو را به صورت زیر مشاهده می کنیم:
 
+```
+public boolean equals(Object o) {
+    if (o instanceof Token) {
+        Token temp = (Token) o;
+        if (temp.type == this.type) {
+            return this.type != Type.KEYWORDS || this.value.equals(temp.value);
+        }
+    }
+    return false;
+}
+```
 
+حال با کمک `return` کد را بازآرایی می کنیم و به کد زیر می رسیم:
+
+```
+public boolean equals(Object o) {
+    if (!(o instanceof Token))
+        return false;
+    Token temp = (Token) o;
+    if (!(temp.type == this.type))
+        return false;
+    return this.type != Type.KEYWORDS || this.value.equals(temp.value);
+}
+```
+
+___
 
 #پاسخ سوالات
 

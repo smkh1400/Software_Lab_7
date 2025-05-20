@@ -21,13 +21,12 @@ public class Token {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Token) {
-            Token temp = (Token) o;
-            if (temp.type == this.type) {
-                return this.type != Type.KEYWORDS || this.value.equals(temp.value);
-            }
-        }
-        return false;
+        if (!(o instanceof Token))
+            return false;
+        Token temp = (Token) o;
+        if (!(temp.type == this.type))
+            return false;
+        return this.type != Type.KEYWORDS || this.value.equals(temp.value);
     }
 
     @Override
