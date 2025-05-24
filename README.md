@@ -194,6 +194,31 @@ public boolean equals(Object o) {
 }
 ````
 ___
+نصب و اجرای پلاگین `formatter`:
+
+به فایل 
+`pom.xml`
+این قسمت را اضافه میکنیم:
+
+```xml
+<plugin>
+    <groupId>net.revelc.code.formatter</groupId>
+    <artifactId>formatter-maven-plugin</artifactId>
+    <version>2.26.0</version>
+    <configuration>
+        <encoding>UTF-8</encoding>
+    </configuration>
+</plugin>
+```
+همچنان در قسمت maven این پلاگین را اجرا میکنیم:
+
+![img_1.png](images/img_1.png)
+
+با اجرای این پلاگین کد فایل های پروژه format میشوند.
+
+نمونه ای از format های انجام شده: 
+![img_2.png](images/img_2.png)
+---
 #پاسخ سوالات
 
 سوال اول:

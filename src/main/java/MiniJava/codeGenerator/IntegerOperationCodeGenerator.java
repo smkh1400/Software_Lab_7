@@ -21,7 +21,7 @@ public class IntegerOperationCodeGenerator {
         Address s1 = ss.pop();
 
         if (s1.varType != varType.Int || s2.varType != varType.Int) {
-            ErrorHandler.printError("In "+ operationName +" two operands must be integer");
+            ErrorHandler.printError("In " + operationName + " two operands must be integer");
         }
         memory.add3AddressCode(operation, s1, s2, temp);
         ss.push(temp);

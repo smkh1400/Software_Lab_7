@@ -16,7 +16,7 @@ public class ParserFacade {
     private ArrayList<Rule> rules;
     private ParseTable parseTable;
 
-    public ParserFacade(ParseTable parseTable, ArrayList<Rule> rules){
+    public ParserFacade(ParseTable parseTable, ArrayList<Rule> rules) {
         parsStack = new Stack<>();
         parsStack.push(0);
         cg = new CodeGenerator();
@@ -35,7 +35,6 @@ public class ParserFacade {
                 Log.print(lookAhead.toString() + "\t" + parsStack.peek());
                 currentAction = parseTable.getActionTable(parsStack.peek(), lookAhead);
                 Log.print(currentAction.toString());
-
 
                 switch (currentAction.action) {
                     case shift:
@@ -67,6 +66,7 @@ public class ParserFacade {
                 ignored.printStackTrace();
             }
         }
-        if (!ErrorHandler.hasError) cg.printMemory();
+        if (!ErrorHandler.hasError)
+            cg.printMemory();
     }
 }
