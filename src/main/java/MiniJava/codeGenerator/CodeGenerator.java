@@ -445,6 +445,3 @@ public class CodeGenerator {
     }
 }
 
-public interface SemanticAction {
-    void execute(CodeGenerator codeGenerator, Token token);
-}
