@@ -22,10 +22,12 @@ public class CodeGenerator {
     private Stack<String> symbolStack = new Stack<>();
     private Stack<String> callStack = new Stack<>();
     private SymbolTable symbolTable;
+    private IntegerOperationCodeGenerator integerOperationCodeGenerator;
     private final Map<Integer, SemanticAction> actions = new HashMap<>();
 
     public CodeGenerator() {
         symbolTable = new SymbolTable(memory);
+        integerOperationCodeGenerator = new IntegerOperationCodeGenerator(memory, ss);
 
         actions.put(0, (cg, t) -> {});
         actions.put(1, (cg, t) -> cg.checkID());
@@ -242,41 +244,15 @@ public class CodeGenerator {
     }
 
     public void add() {
-        memory.modifyLastTempIndex();
-        Address temp = new Address(memory.getTemp(), varType.Int);
-        Address s2 = ss.pop();
-        Address s1 = ss.pop();
-
-        if (s1.varType != varType.Int || s2.varType != varType.Int) {
-            ErrorHandler.printError("In add two operands must be integer");
-        }
-        memory.add3AddressCode(Operation.ADD, s1, s2, temp);
-        ss.push(temp);
+        integerOperationCodeGenerator.operate(Operation.ADD, "add");
     }
 
     public void sub() {
-        memory.modifyLastTempIndex();
-        Address temp = new Address(memory.getTemp(), varType.Int);
-        Address s2 = ss.pop();
-        Address s1 = ss.pop();
-        if (s1.varType != varType.Int || s2.varType != varType.Int) {
-            ErrorHandler.printError("In sub two operands must be integer");
-        }
-        memory.add3AddressCode(Operation.SUB, s1, s2, temp);
-        ss.push(temp);
+        integerOperationCodeGenerator.operate(Operation.SUB, "sub");
     }
 
     public void mult() {
-        memory.modifyLastTempIndex();
-        Address temp = new Address(memory.getTemp(), varType.Int);
-        Address s2 = ss.pop();
-        Address s1 = ss.pop();
-        if (s1.varType != varType.Int || s2.varType != varType.Int) {
-            ErrorHandler.printError("In mult two operands must be integer");
-        }
-        memory.add3AddressCode(Operation.MULT, s1, s2, temp);
-//        memory.saveMemory();
-        ss.push(temp);
+        integerOperationCodeGenerator.operate(Operation.MULT, "mult");
     }
 
     public void label() {
