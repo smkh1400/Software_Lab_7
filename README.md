@@ -60,7 +60,64 @@ public boolean equals(Object o) {
 ```
 
 ___
+تکنیک `Replace Conditional with Polymorphism`:
 
+تابع` semanticFunction(int func, Token next)` موجود در فایل `CodeGenerator.java` شامل یک ساختار `switch-case` با بیش از ۳۰ حالت مختلف می باشد که بر اساس مقدار عددی `func`، عملیات مختلفی مانند `()assign()`، `add()`، `label` و... را فراخوانی می‌کند.
+
+
+این تکنیک به ما اجازه می‌دهد به جای بررسی عددی مقدار` func`، از آبجکت‌هایی استفاده کنیم که رفتار مورد نظر را در خود پیاده‌سازی کرده‌اند.
+
+مثلا در این تابع، یک قرارداد برای همه‌ی عملیات‌های معنایی ایجاد می کنیم تا هر عملیاتی که قبلاً در یک `case` بود، حالا تبدیل به یک کلاس مستقل شود.
+
+```java
+public interface SemanticAction {
+    void execute(CodeGenerator codeGenerator, Token token);
+}
+```
+
+اکنون برای هر عملیات یک کلاس چند ریختی ایجاد می کنیم. مثلا برای عملیات `()add` داریم:
+
+````java
+
+public class AddAction implements SemanticAction {
+    @Override
+    public void execute(CodeGenerator codeGenerator, Token token) {
+        codeGenerator.add();
+    }
+}
+
+````
+سپس یک نگاشت از `func` به کلاس مربوطه تعریف می کنیم:
+
+````java
+private final Map<Integer, SemanticAction> actions = new HashMap<>();
+
+public CodeGenerator() {
+    symbolTable = new SymbolTable(memory);
+    actions.put(9, new AssignAction());
+    actions.put(10, new AddAction());
+    actions.put(11, new SubAction());
+    actions.put(1, (cg, t) -> cg.checkID()); 
+    // ... 
+}
+````
+
+ در انتها متد `semanticFunction` را به شکل زیر بازنویسی می کنیم:
+
+````java
+public void semanticFunction(int func, Token next) {
+    Log.print("codegenerator : " + func);
+    SemanticAction action = actions.get(func);
+    if (action != null) {
+        action.execute(this, next);
+    } else {
+        ErrorHandler.printError("Unknown semantic function: " + func);
+    }
+}
+````
+این بازآرایی باعث شد کد از حالت خطی خارج شده، وابستگی‌ها کاهش یابد، هر عملیات معنایی به یک واحد مستقل و قابل تست تبدیل شود و در نتیجه توسعه‌پذیری کد به‌طور قابل‌توجهی افزایش یابد.
+
+---
 #پاسخ سوالات
 
 سوال اول:
