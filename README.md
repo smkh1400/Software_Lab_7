@@ -117,6 +117,42 @@ public void semanticFunction(int func, Token next) {
 ````
 این بازآرایی باعث شد کد از حالت خطی خارج شده، وابستگی‌ها کاهش یابد، هر عملیات معنایی به یک واحد مستقل و قابل تست تبدیل شود و در نتیجه توسعه‌پذیری کد به‌طور قابل‌توجهی افزایش یابد.
 
+
+---
+
+
+ بازآرایی` Consolidate Conditional Expression`:
+
+این بازآرایی، به معنای ترکیب شرط‌های پراکنده و تودرتو به یک عبارت شرطی ساده‌تر و خواناتر است. این کار باعث افزایش خوانایی و کاهش پیچیدگی کد می‌شود.
+
+در`Token.java` در کلاس `Token`، متد `equals` نمونه‌ای مناسب برای اعمال این بازآرایی است.
+
+````java
+ public boolean equals(Object o) {
+        if (!(o instanceof Token))
+            return false;
+        Token temp = (Token) o;
+        if (!(temp.type == this.type))
+            return false;
+        return this.type != Type.KEYWORDS || this.value.equals(temp.value);
+    }
+    
+   
+  ````
+همانطور که از کد فوق مشخص است، منطق بررسی برابری به‌صورت چند شرط تودرتو و بازگشت‌های جداگانه `(return false)` پیاده‌سازی شده است. این ساختار باعث پیچیدگی در درک جریان تصمیم‌گیری می‌شود و احتمال بروز خطا یا فراموشی یکی از شرط‌ها در توسعه‌های بعدی را افزایش می‌دهد.
+
+به منظور بازآرایی، با استفاده از تکنیک `Consolidate Conditional Expression`، تمام شرط‌های منطقی در یک عبارت ترکیب می کنیم تا از تکرار و پراکندگی جلوگیری شود. همچنین با استفاده از قابلیت` pattern matching` در `instanceof`، از تبدیل نوع جداگانه اجتناب شده و کد کوتاه‌تر، خواناتر شدمی شود.
+
+````java
+@Override
+public boolean equals(Object o) {
+    if (o instanceof Token token) {
+        return this.type == token.type && 
+               (this.type != Type.KEYWORDS || this.value.equals(token.value));
+    }
+    return false;
+}
+````
 ---
 #پاسخ سوالات
 
